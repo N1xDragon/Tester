@@ -1,0 +1,39 @@
+-- This is will work if do you have gui with menu like mine!
+local ws = game:GetService("Workspace") -- just workspace
+local cam = ws.Camera or ws.CurrentCamera -- CameraPart Must be in workspace!
+local mouse = game:GetService("Players").LocalPlayer:GetMouse() --For checking position mouse
+repeat wait() cam.CameraType = Enum.CameraType.Scriptable until cam.CameraType == Enum.CameraType.Scriptable
+local maxTilt = 11 -- Limet of range camera
+local LookingPart = 0 --Number of loading
+--Toggles
+local toggle = false
+local toglle2 = false
+
+game:GetService("RunService").RenderStepped:Connect(function()	
+	if cam ~= nil then
+		local Folder = 'CameraPart' --Change the name part pls
+		if not ws.Base:FindFirstChild(Folder) then
+			if toggle == false then
+				toggle = true
+				LookingPart += 1
+				print("Loading Part! Founding Part in "..LookingPart)
+				task.wait(1)
+				toggle = false
+			end
+		else
+			if toglle2 == false then
+				toglle2 = true
+				if LookingPart == 0 then
+					print("Loaded Camera! In Start Materail")
+				else
+					print("Loaded Camera! In "..LookingPart.. " < Materail")
+				end
+			end
+			local camPart2 = ws.Base.CameraPart
+			cam.CFrame = camPart2.CFrame * CFrame.Angles(
+				math.rad((((mouse.Y - mouse.ViewSizeY / 2) / mouse.ViewSizeY)) * -maxTilt),
+				math.rad((((mouse.X - mouse.ViewSizeX / 2) / mouse.ViewSizeX)) * -maxTilt),
+			 0)
+		end
+	end	
+end)
